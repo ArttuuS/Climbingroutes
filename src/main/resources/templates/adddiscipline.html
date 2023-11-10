@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Add Discipline</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+	<div class="container">
+		<h2>Add/Edit Discipline</h2>
+		<div class="col-md-4">
+			<div class="col-md-4" style="padding:20px 0">
+				<form th:action="@{/logout}" method="post">
+					<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+				</form>
+			</div>
+			<form th:object="${discipline}" th:action="@{/savediscipline}" method="post">
+
+				<label for="name">Name</label>
+				<input type="text" id="name" th:field="*{name}" class="form-control" />
+				<div style="clear: both; display: block; height: 10px;"></div>
+
+				<input type="submit" class="btn btn-primary"
+					th:value="${discipline.disciplineid == null ? 'Add Discipline' : 'Update Discipline'}" />
+				<div class="container" style="padding: 20px 0;">
+					<a href="/disciplinelist" class="btn btn-secondary">Back</a>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

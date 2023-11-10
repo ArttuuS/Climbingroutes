@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Routelist</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>Add/Edit Route</h2>
+        <div class="col-md-4" style="padding:20px 0">
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form th:object="${route}" th:action="@{/save}" method="post">
+
+                <input type="hidden" th:field="*{routeid}" />
+
+                <label for="sector">Sector</label>
+                <input type="text" id="sector" th:field="*{sector}" class="form-control" />
+                <div style="clear: both; display: block; height: 10px;"></div>
+
+                <label for="grade">Grade</label>
+                <input type="text" id="grade" th:field="*{grade}" class="form-control" />
+                <div style="clear: both; display: block; height: 10px;"></div>
+
+                <label for="date">Date</label>
+                <input type="text" id="date" th:field="*{date}" class="form-control" />
+                <div style="clear: both; display: block; height: 10px;"></div>
+
+                <label for="routesetter">Routesetter</label>
+                <select id="routesetter" th:field="*{routesetter}" class="form-control">
+                    <option th:each="routesetter: ${routesetters}" th:value="${routesetter.routesetterid}"
+                        th:text="${routesetter.name}"></option>
+                </select>
+                <div style="clear: both; display: block; height: 10px;"></div>
+
+                <label for="discipline">Discipline</label>
+                <select id="discipline" th:field="*{discipline}" class="form-control">
+                    <option th:each="discipline: ${disciplines}" th:value="${discipline.disciplineid}"
+                        th:text="${discipline.name}"></option>
+                </select>
+                <div style="clear: both; display: block; height: 10px;"></div>
+
+                <input type="submit" class="btn btn-primary"
+                    th:value="${route.routeid == null ? 'Add Route' : 'Update Route'}" />
+                <div class="container" style="padding: 20px 0;">
+                    <a href="/climbingroutes" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

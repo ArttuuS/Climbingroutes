@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+	<title>Routelist</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+	<h1>Routes</h1>
+	<div class="col-md-4">
+		<h3>Welcome <span sec:authentication="name"></span>!</h3>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+		</form>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Sector</th>
+			<th>Grade</th>
+			<th>Date</th>
+			<th>Routesetter</th>
+			<th>Discipline</th>
+			<th sec:authorize="hasAuthority('ADMIN')">Action</th>
+
+		</tr>
+		<tr th:each="route : ${routes}">
+			<td th:text="${route.sector}"></td>
+			<td th:text="${route.grade}"></td>
+			<td th:text="${route.date}"></td>
+			<td th:text="${route.routesetter.name}"></td>
+			<td th:text="${route.discipline.name}"></td>
+			<td sec:authorize="hasAuthority('ADMIN')">
+				<a th:href="@{/delete/{id}(id=${route.routeid})}" class="btn btn-xs btn-danger">Delete</a>
+				<a th:href="@{/edit/{id}(id=${route.routeid})}" class="btn btn-xs btn-primary">Edit</a>
+			</td>
+
+		</tr>
+	</table>
+	<a th:href="@{/add}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Route</a>
+	<a th:href="@{/routesetterlist}" class="btn btn-success">Show routesetters</a>
+	<a th:href="@{/disciplinelist}" class="btn btn-success">Show disciplines</a>
+
+</body>
+
+</html>
