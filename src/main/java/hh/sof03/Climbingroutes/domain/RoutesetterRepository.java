@@ -8,6 +8,13 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
 public interface RoutesetterRepository extends CrudRepository<Routesetter, Long> {
-	
-	List<Routesetter> findByName(@Param("name")String name);
+
+    List<Routesetter> findByName(@Param("name") String name);
+
+    // Add this method to count routes by routesetter
+    Long countByRoutesetterid(Long routesetterid);
+
+    // Update this method to use the correct property name for the routesetter
+    List<Route> findByRoutesetterid(Routesetter routesetter);
+
 }

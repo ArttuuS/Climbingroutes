@@ -18,10 +18,13 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Routes set</th>
+            
         </tr>
         <tr th:each="discipline : ${disciplines}">
             <td th:text="${discipline.disciplineid}"></td>
             <td th:text="${discipline.name}"></td>
+            <td th:text="${discipline.disciplineCount}"></td>
             
         </tr>
     </table>

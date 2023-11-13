@@ -2,31 +2,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Routesetter List</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+	<title>Routesetter List</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
-    <h1>Routesetters</h1>
-    	<div class="col-md-4" style="padding:20px 0">
+	<h1>Routesetters</h1>
+	<div class="col-md-4" style="padding:20px 0">
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
 		</form>
 	</div>
-    <table class="table table-striped">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-        </tr>
-        <tr th:each="routesetter : ${routesetters}">
-            <td th:text="${routesetter.routesetterid}"></td>
-            <td th:text="${routesetter.name}"></td>
-            
-        </tr>
-    </table>
-    <a th:href="@{/addroutesetter}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Routesetter</a>
-    <a th:href="@{/climbingroutes}" class="btn btn-success">Back</a>
+	<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Routes set</th>
+		</tr>
+		<tr th:each="routesetter : ${routesetters}">
+			<td th:text="${routesetter.routesetterid}"></td>
+			<td th:text="${routesetter.name}"></td>
+			<td th:text="${routesetter.routeCount}"></td>
+
+		</tr>
+	</table>
+	<a th:href="@{/addroutesetter}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Routesetter</a>
+	<a th:href="@{/climbingroutes}" class="btn btn-success">Back</a>
 </body>
 
 </html>

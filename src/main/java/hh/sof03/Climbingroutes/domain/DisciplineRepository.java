@@ -10,4 +10,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface DisciplineRepository extends CrudRepository<Discipline, Long> {
 
 	List<Discipline> findByName(@Param("name")String name);
+	
+	 Long countByDisciplineid(Discipline discipline);
 }

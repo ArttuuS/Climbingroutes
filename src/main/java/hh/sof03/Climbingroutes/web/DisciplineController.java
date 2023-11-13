@@ -15,18 +15,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.sof03.Climbingroutes.domain.Discipline;
 import hh.sof03.Climbingroutes.domain.DisciplineRepository;
+import hh.sof03.Climbingroutes.domain.Route;
+import hh.sof03.Climbingroutes.domain.RouteRepository;
 
 @Controller
 public class DisciplineController {
 
 	@Autowired
 	private DisciplineRepository disciplinerepository;
+	
+	@Autowired
+    private RouteRepository routeRepository;
 
-	@RequestMapping(value = "/disciplinelist", method = RequestMethod.GET)
-	public String listDisciplines(Model model) {
-		model.addAttribute("disciplines", disciplinerepository.findAll());
-		return "disciplinelist";
-	}
+	  @RequestMapping(value = "/disciplinelist", method = RequestMethod.GET)
+	    public String listDisciplines(Model model) {
+	        Iterable<Discipline> disciplines = disciplinerepository.findAll();
+
+	        // For each discipline, fetch the routes they have set and count them
+	        for (Discipline discipline : disciplines) {
+	            List<Route> routes = routeRepository.findByDiscipline(discipline);
+	            Long disciplineCount = (long) routes.size();
+	            discipline.setDisciplineCount(disciplineCount);
+	        }
+
+	        model.addAttribute("disciplines", disciplines);
+	        return "disciplinelist";
+	    }
 
 	@RequestMapping(value = "/adddiscipline", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('ADMIN')")

@@ -16,13 +16,15 @@ public class Routesetter {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	
+
 	private Long routesetterid;
 	private String name;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "routesetter")
 	@JsonIgnoreProperties("routesetter")
 	private List<Route> routes;
+
+	private Long routeCount; // Add this field
 
 	public Routesetter() {
 		super();
@@ -57,13 +59,17 @@ public class Routesetter {
 		this.routes = routes;
 	}
 
+	public Long getRouteCount() {
+		return routeCount;
+	}
+
+	public void setRouteCount(Long routeCount) {
+		this.routeCount = routeCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Routesetter [routesetterid=" + routesetterid + ", name=" + name + "]";
 	}
-	
-	
-	
-	
-	
+
 }

@@ -2,6 +2,8 @@ package hh.sof03.Climbingroutes.domain;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +25,9 @@ public class Discipline {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "discipline")
 	@JsonIgnoreProperties("discipline")
 	private List<Route> routes;
+
+	@Transient
+	private Long disciplineCount; // Add this field
 
 	public Discipline(String name) {
 		super();
@@ -56,6 +61,14 @@ public class Discipline {
 
 	public void setRoutes(List<Route> routes) {
 		this.routes = routes;
+	}
+
+	public Long getDisciplineCount() {
+		return disciplineCount;
+	}
+
+	public void setDisciplineCount(Long disciplineCount) {
+		this.disciplineCount = disciplineCount;
 	}
 
 	@Override
