@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>Climbing Log</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+
+<body>
+	<h1>Climbing Log</h1>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
+		</form>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>User</th>
+			<th>Climbed Date</th>
+			<th>Grade</th>
+		</tr>
+		<tr th:each="climbinglog : ${climbinglogs}">
+			<td th:text="${climbinglog.climbinglogid}"></td>
+			<td th:text="${climbinglog.user.username}"></td>
+			<td th:text="${#temporals.format(climbinglog.climbedDate, 'yyyy-MM-dd')}"></td>
+			<td th:text="${climbinglog.route.grade}"></td>
+
+		</tr>
+	</table>
+	<a th:href="@{/climbingroutes}" class="btn btn-success">Back to Routes</a>
+</body>
+
+</html>

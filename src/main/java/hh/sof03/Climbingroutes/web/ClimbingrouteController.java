@@ -1,5 +1,7 @@
 package hh.sof03.Climbingroutes.web;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import hh.sof03.Climbingroutes.domain.ClimbingLog;
+import hh.sof03.Climbingroutes.domain.ClimbingLogRepository;
 import hh.sof03.Climbingroutes.domain.DisciplineRepository;
 import hh.sof03.Climbingroutes.domain.Route;
 import hh.sof03.Climbingroutes.domain.RouteRepository;
 import hh.sof03.Climbingroutes.domain.RoutesetterRepository;
+import hh.sof03.Climbingroutes.domain.UserRepository;
 
 @Controller
 public class ClimbingrouteController {
@@ -27,7 +32,14 @@ public class ClimbingrouteController {
 	@Autowired
 	private RoutesetterRepository routesetterrepository;
 	
-	@Autowired DisciplineRepository disciplinerepository;
+	@Autowired
+	DisciplineRepository disciplinerepository;
+	
+	@Autowired
+	UserRepository userrepository;
+	
+	@Autowired
+	ClimbingLogRepository climbinglogrepository;
 
 	// RESTful
 	@RequestMapping(value = "/routes", method = RequestMethod.GET)
@@ -80,7 +92,7 @@ public class ClimbingrouteController {
 
 			return "addroute";
 		} else {
-			return "redirect:/climbindriutes";
+			return "redirect:/climbingroutes";
 		}
 	}
 
@@ -94,4 +106,29 @@ public class ClimbingrouteController {
 	public String login() {
 		return "login";
 	}
+	
+	
+	@RequestMapping(value = "/markAsClimbed/{routeid}", method = RequestMethod.POST)
+	public String markRouteAsClimbed(@PathVariable("routeid") Long routeid, Principal principal) {
+	    // ... other logic ...
+	    ClimbingLog climbingLog = new ClimbingLog();
+	    climbingLog.setUser(userrepository.findByUsername(principal.getName()));
+	    climbingLog.setRoute(routerepository.findById(routeid).orElse(null));
+	    climbingLog.setClimbedDate(LocalDate.now());
+	    
+	    // Use getGrade() to get the grade from the associated Route
+	    if (climbingLog.getRoute() != null) {
+	        climbingLog.setGrade(climbingLog.getRoute().getGrade());
+	    } else {
+	        // Handle the case where the route is not found
+	        // You might want to throw an exception, log an error, or handle it in an appropriate way.
+	        // For now, setting a default grade to handle it gracefully.
+	        climbingLog.setGrade("Unknown");
+	    }
+	    
+	    climbinglogrepository.save(climbingLog);
+	    return "redirect:/climbingroutes";
+	}
 }
+
+

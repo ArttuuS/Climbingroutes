@@ -25,6 +25,7 @@
 			<th>Routesetter</th>
 			<th>Discipline</th>
 			<th sec:authorize="hasAuthority('ADMIN')">Action</th>
+			<th>Tick</th>
 
 		</tr>
 		<tr th:each="route : ${routes}">
@@ -37,12 +38,19 @@
 				<a th:href="@{/delete/{id}(id=${route.routeid})}" class="btn btn-xs btn-danger">Delete</a>
 				<a th:href="@{/edit/{id}(id=${route.routeid})}" class="btn btn-xs btn-primary">Edit</a>
 			</td>
+			<td>
+				<!-- Add a button to mark the route as climbed -->
+				<form th:action="@{/markAsClimbed/{routeid}(routeid=${route.routeid})}" method="post">
+					<input type="submit" value="Mark as Climbed" class="btn btn-success" />
+				</form>
+			</td>
 
 		</tr>
 	</table>
 	<a th:href="@{/add}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Route</a>
 	<a th:href="@{/routesetterlist}" class="btn btn-success">Show routesetters</a>
 	<a th:href="@{/disciplinelist}" class="btn btn-success">Show disciplines</a>
+	<a th:href="@{/climbinglog}" class="btn btn-primary">View Climbing Log</a>
 
 </body>
 
