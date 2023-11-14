@@ -5,6 +5,9 @@
 	<title>Climbing Log</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -18,7 +21,7 @@
 		<tr>
 			<th>Id</th>
 			<th>User</th>
-			<th>Climbed Date</th>
+			<th>Date</th>
 			<th>Grade</th>
 		</tr>
 		<tr th:each="climbinglog : ${climbinglogs}">
@@ -26,10 +29,65 @@
 			<td th:text="${climbinglog.user.username}"></td>
 			<td th:text="${#temporals.format(climbinglog.climbedDate, 'yyyy-MM-dd')}"></td>
 			<td th:text="${climbinglog.route.grade}"></td>
-
 		</tr>
 	</table>
 	<a th:href="@{/climbingroutes}" class="btn btn-success">Back to Routes</a>
+
+	<canvas id="climbingChart" width="200" height="50"></canvas>
+
+	<script>
+		// Function to fetch climbing logs data from the provided URL
+		async function getClimbingLogs() {
+			const response = await fetch('http://localhost:8080/climbinglogs');
+			const data = await response.json();
+			return data;
+		}
+
+		// Function to create a chart using Chart.js
+		async function createChart() {
+			const climbingLogs = await getClimbingLogs();
+
+			// Extract grade values from climbing logs
+			const grades = climbingLogs.map(log => log.route.grade);
+
+			// Count the occurrences of each grade
+			const gradeCounts = {};
+			grades.forEach(grade => {
+				gradeCounts[grade] = (gradeCounts[grade] || 0) + 1;
+			});
+
+			// Prepare data for the chart
+			const labels = Object.keys(gradeCounts);
+			const data = Object.values(gradeCounts);
+
+			// Create a chart using Chart.js
+			const ctx = document.getElementById('climbingChart').getContext('2d');
+			const myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: labels,
+					datasets: [{
+						label: 'Climbing Logs by Grade',
+						data: data,
+						backgroundColor: 'rgba(0, 0, 255, 0.2)',
+						  borderColor: 'rgba(0, 0, 255, 1)',
+						borderWidth: 1.5
+					}]
+				},
+				options: {
+					scales: {
+						y: {
+							beginAtZero: true
+						}
+					}
+				}
+			});
+		}
+
+		// Call the createChart function when the page is loaded
+		document.addEventListener('DOMContentLoaded', createChart);
+	</script>
+
 </body>
 
 </html>

@@ -5,12 +5,24 @@
 	<title>Routelist</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+	
+	<script th:inline="javascript">
+    function markAsClimbedConfirmation() {
+        var confirmation = confirm("Are you sure you want to mark this route as climbed?");
+
+        if (confirmation) {
+            alert("Climb has been added to the climbing log!");
+        }
+
+        return confirmation;
+    }
+</script>
 </head>
 
 <body>
-	<h1>Routes</h1>
+	<h1>Climbing routes</h1>
 	<div class="col-md-4">
-		<h3>Welcome <span sec:authentication="name"></span>!</h3>
+		<h4>Welcome <span sec:authentication="name"></span>!</h4>
 	</div>
 	<div class="col-md-4" style="padding:20px 0">
 		<form th:action="@{/logout}" method="post">
@@ -39,19 +51,19 @@
 				<a th:href="@{/edit/{id}(id=${route.routeid})}" class="btn btn-xs btn-primary">Edit</a>
 			</td>
 			<td>
-				<!-- Add a button to mark the route as climbed -->
-				<form th:action="@{/markAsClimbed/{routeid}(routeid=${route.routeid})}" method="post">
-					<input type="submit" value="Mark as Climbed" class="btn btn-success" />
-				</form>
+				<form th:action="@{/markAsClimbed/{routeid}(routeid=${route.routeid})}" method="post"
+          onsubmit="return markAsClimbedConfirmation()">
+        <input type="submit" value="Mark as Climbed" class="btn btn-success" />
+    </form>
 			</td>
-
 		</tr>
 	</table>
 	<a th:href="@{/add}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Route</a>
 	<a th:href="@{/routesetterlist}" class="btn btn-success">Show routesetters</a>
 	<a th:href="@{/disciplinelist}" class="btn btn-success">Show disciplines</a>
 	<a th:href="@{/climbinglog}" class="btn btn-primary">View Climbing Log</a>
-
 </body>
+
+
 
 </html>

@@ -27,7 +27,7 @@ public class Discipline {
 	private List<Route> routes;
 
 	@Transient
-	private Long disciplineCount; // Add this field
+	private Long disciplineCount;
 
 	public Discipline(String name) {
 		super();
