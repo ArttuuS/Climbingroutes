@@ -55,10 +55,10 @@ public class ClimbingroutesApplication {
 					disciplinerepository.findByName("Sport").get(0)));
 
 			// Save users
-			userrepository.save(new User("User", "$2a$10$4fmWdugwMgiJwTx7weWTVemPuvwNSy9VsJOfeSJd54eDT0.KORvzS",
-					"user@gmail.com", "USER"));
-			userrepository.save(new User("Admin", "$2a$10$26nsVLJTKJH05dP3zot5POihMougp.bpN6KC/r8Qgeka07zAtjk3u",
-					"admin.com", "ADMIN"));
+			userrepository.save(new User("pekka", "$2a$10$9K9M.XkMfr291FWM3pBtbu2tidtgAfX0HvGQKZ9QT5Ir4YuGLegIa",
+					"pekka.saarenheimo@gmail.com", "USER"));
+			userrepository.save(new User("ylläpito", "$2a$10$TCOEbO.xx6wDiXm.yNEe/e0n5JQEAl8mdwIATltKAgM4Fs6T7qena",
+					"yllapito.kiipeily@gmail.com", "ADMIN"));
 
 			// Log information about fetching all the routes 
 			log.info("fetch all routes");
