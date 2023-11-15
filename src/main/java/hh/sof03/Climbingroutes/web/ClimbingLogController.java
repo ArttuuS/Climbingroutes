@@ -32,7 +32,7 @@ public class ClimbingLogController {
 	    return "climbinglog";
 	}
 	
-	// RESTful endpoint for climbing logs
+	// RESTful for climbing logs
 	@RequestMapping(value = "/climbinglogs", method = RequestMethod.GET)
 	public @ResponseBody List<ClimbingLog> climbingLogListRest(Principal principal) {
 	    User user = userrepository.findByUsername(principal.getName());

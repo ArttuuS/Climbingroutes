@@ -22,67 +22,56 @@ import hh.sof03.Climbingroutes.domain.RoutesetterRepository;
 @Controller
 public class RoutesetterController {
 
-    @Autowired
-    private RoutesetterRepository routesetterrepository;
+	@Autowired
+	private RoutesetterRepository routesetterrepository;
 
-    @Autowired
-    private RouteRepository routeRepository;  // Inject the RouteRepository
+	@Autowired
+	private RouteRepository routeRepository; // Inject the RouteRepository
 
-    @RequestMapping(value = "/routesetterlist", method = RequestMethod.GET)
-    public String listRoutesetters(Model model) {
-        Iterable<Routesetter> routesetters = routesetterrepository.findAll();
+	@RequestMapping(value = "/routesetterlist", method = RequestMethod.GET)
+	public String listRoutesetters(Model model) {
+		Iterable<Routesetter> routesetters = routesetterrepository.findAll();
 
-        // For each routesetter, fetch the routes they have set and count them
-        for (Routesetter routesetter : routesetters) {
-            List<Route> routes = routeRepository.findByRoutesetter(routesetter);
-            Long routeCount = (long) routes.size();
-            routesetter.setRouteCount(routeCount);
-        }
+		// For each routesetter, fetch the routes they have set and count them
+		for (Routesetter routesetter : routesetters) {
+			List<Route> routes = routeRepository.findByRoutesetter(routesetter);
+			Long routeCount = (long) routes.size();
+			routesetter.setRouteCount(routeCount);
+		}
 
-        model.addAttribute("routesetters", routesetters);
-        return "routesetterlist";
-    }
+		model.addAttribute("routesetters", routesetters);
+		return "routesetterlist";
+	}
 
-    @RequestMapping(value = "/addroutesetter", method = RequestMethod.GET)
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public String addRoutesetter(Model model) {
-        model.addAttribute("routesetter", new Routesetter());
-        return "addroutesetter";
-    }
+	@RequestMapping(value = "/addroutesetter", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public String addRoutesetter(Model model) {
+		model.addAttribute("routesetter", new Routesetter());
+		return "addroutesetter";
+	}
 
-    @RequestMapping(value = "/saveroutesetter", method = RequestMethod.POST)
-    public String saveRoutesetter(Routesetter routesetter) {
-        routesetterrepository.save(routesetter);
-        return "redirect:/routesetterlist";
-    }
+	@RequestMapping(value = "/saveroutesetter", method = RequestMethod.POST)
+	public String saveRoutesetter(Routesetter routesetter) {
+		routesetterrepository.save(routesetter);
+		return "redirect:/routesetterlist";
+	}
 
-    // RESTful service for routesetterlist
-    @RequestMapping(value = "/routesetters", method = RequestMethod.GET)
-    public @ResponseBody List<Routesetter> routesetterListRest() {
-        return (List<Routesetter>) routesetterrepository.findAll();
-    }
+	// RESTful service for routesetterlist
+	@RequestMapping(value = "/routesetters", method = RequestMethod.GET)
+	public @ResponseBody List<Routesetter> routesetterListRest() {
+		return (List<Routesetter>) routesetterrepository.findAll();
+	}
 
-    // RESTful service for routesetter by id
-    @RequestMapping(value = "/routesetters/{routesetterid}", method = RequestMethod.GET)
-    public @ResponseBody Optional<Routesetter> findRoutesetterRest(@PathVariable("routesetterid") Long routesetterid) {
-        return routesetterrepository.findById(routesetterid);
-    }
+	// RESTful service for routesetter by id
+	@RequestMapping(value = "/routesetters/{routesetterid}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Routesetter> findRoutesetterRest(@PathVariable("routesetterid") Long routesetterid) {
+		return routesetterrepository.findById(routesetterid);
+	}
 
-    // RESTful service for saving a new routesetter
-    @RequestMapping(value = "/routesetters", method = RequestMethod.POST)
-    public @ResponseBody Routesetter saveRoutesetterRest(@RequestBody Routesetter routesetter) {
-        return routesetterrepository.save(routesetter);
-    }
+	// RESTful service for saving a new routesetter
+	@RequestMapping(value = "/routesetters", method = RequestMethod.POST)
+	public @ResponseBody Routesetter saveRoutesetterRest(@RequestBody Routesetter routesetter) {
+		return routesetterrepository.save(routesetter);
+	}
 
-   // // RESTful service for routes by routesetter
-   // @RequestMapping(value = "/routes/{routesetterid}", method = RequestMethod.GET)
-   // public @ResponseBody List<Route> findRoutesByRoutesetterRest(@PathVariable("routesetterid") Long routesetterid) {
-   //     Routesetter routesetter = routesetterrepository.findById(routesetterid).orElse(null);
-     //   if (routesetter != null) {
-      //      return routeRepository.findByRoutesetter(routesetter);
-      //  } else {
-      //      // Handle the case where the routesetter is not found
-     //       return Collections.emptyList();
-     //   }
-  //  }
 }

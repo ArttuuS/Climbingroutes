@@ -27,9 +27,10 @@ public class ClimbingLog {
 	@JoinColumn(name = "routeid")
 	private Route route;
 
+	// Date for climb log
 	private LocalDate climbedDate;
 
-	// Update grade to directly reference the Route entity's grade
+	// Transient field to temporarily store the climbing grade
 	@Transient
 	private String grade;
 

@@ -24,7 +24,8 @@ public class Routesetter {
 	@JsonIgnoreProperties("routesetter")
 	private List<Route> routes;
 
-	private Long routeCount; // Add this field
+	// Count of routes set by the Routesetter
+	private Long routeCount;
 
 	public Routesetter() {
 		super();

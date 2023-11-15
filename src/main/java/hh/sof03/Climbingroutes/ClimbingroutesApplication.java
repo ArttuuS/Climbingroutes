@@ -28,18 +28,22 @@ public class ClimbingroutesApplication {
 	public CommandLineRunner demo(RouteRepository routerepository, RoutesetterRepository routesetterrepository,
 			UserRepository userrepository, DisciplineRepository disciplinerepository) {
 		return (args) -> {
+			// Log information about saving routes
 			log.info("save a couple of routes");
 
+			// Save routesetters
 			routesetterrepository.save(new Routesetter("Nalle Hukkataival"));
 			routesetterrepository.save(new Routesetter("Adam Ondra"));
 			routesetterrepository.save(new Routesetter("Thomas Huber"));
 			routesetterrepository.save(new Routesetter("Alexander Huber"));
 
+			// Save diciplines
 			disciplinerepository.save(new Discipline("Boulder"));
 			disciplinerepository.save(new Discipline("Sport"));
 			disciplinerepository.save(new Discipline("Traditional"));
 			disciplinerepository.save(new Discipline("Speed"));
 
+			// Save routes
 			routerepository.save(new Route("Front sector", "6a", "9.11.2023",
 					routesetterrepository.findByName("Nalle Hukkataival").get(0),
 					disciplinerepository.findByName("Boulder").get(0)));
@@ -50,11 +54,13 @@ public class ClimbingroutesApplication {
 					routesetterrepository.findByName("Thomas Huber").get(0),
 					disciplinerepository.findByName("Sport").get(0)));
 
+			// Save users
 			userrepository.save(new User("User", "$2a$10$4fmWdugwMgiJwTx7weWTVemPuvwNSy9VsJOfeSJd54eDT0.KORvzS",
 					"user@gmail.com", "USER"));
 			userrepository.save(new User("Admin", "$2a$10$26nsVLJTKJH05dP3zot5POihMougp.bpN6KC/r8Qgeka07zAtjk3u",
 					"admin.com", "ADMIN"));
 
+			// Log information about fetching all the routes 
 			log.info("fetch all routes");
 			for (Route route : routerepository.findAll()) {
 				log.info(route.toString());

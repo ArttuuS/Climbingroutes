@@ -31,13 +31,13 @@ public class ClimbingrouteController {
 
 	@Autowired
 	private RoutesetterRepository routesetterrepository;
-	
+
 	@Autowired
 	DisciplineRepository disciplinerepository;
-	
+
 	@Autowired
 	UserRepository userrepository;
-	
+
 	@Autowired
 	ClimbingLogRepository climbinglogrepository;
 
@@ -106,29 +106,27 @@ public class ClimbingrouteController {
 	public String login() {
 		return "login";
 	}
-	
-	
+
 	@RequestMapping(value = "/markAsClimbed/{routeid}", method = RequestMethod.POST)
 	public String markRouteAsClimbed(@PathVariable("routeid") Long routeid, Principal principal) {
-	    // ... other logic ...
-	    ClimbingLog climbingLog = new ClimbingLog();
-	    climbingLog.setUser(userrepository.findByUsername(principal.getName()));
-	    climbingLog.setRoute(routerepository.findById(routeid).orElse(null));
-	    climbingLog.setClimbedDate(LocalDate.now());
-	    
-	    // Use getGrade() to get the grade from the associated Route
-	    if (climbingLog.getRoute() != null) {
-	        climbingLog.setGrade(climbingLog.getRoute().getGrade());
-	    } else {
-	        // Handle the case where the route is not found
-	        // You might want to throw an exception, log an error, or handle it in an appropriate way.
-	        // For now, setting a default grade to handle it gracefully.
-	        climbingLog.setGrade("Unknown");
-	    }
-	    
-	    climbinglogrepository.save(climbingLog);
-	    return "redirect:/climbingroutes";
+
+		// Create a ClimbingLog entry when a route is marked as climbed
+		// Principal principal retrieves information about the currently authenticated
+		// user
+		ClimbingLog climbingLog = new ClimbingLog();
+		climbingLog.setUser(userrepository.findByUsername(principal.getName()));
+		climbingLog.setRoute(routerepository.findById(routeid).orElse(null));
+		climbingLog.setClimbedDate(LocalDate.now());
+
+		// Using getGrade() to get the grade from the associated Route
+		if (climbingLog.getRoute() != null) {
+			climbingLog.setGrade(climbingLog.getRoute().getGrade());
+		} else {
+
+			climbingLog.setGrade("Unknown");
+		}
+
+		climbinglogrepository.save(climbingLog);
+		return "redirect:/climbingroutes";
 	}
 }
-
-

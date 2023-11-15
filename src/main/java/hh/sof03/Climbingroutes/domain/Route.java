@@ -29,7 +29,7 @@ public class Route {
 	private Routesetter routesetter;
 
 	@ManyToOne
-	@JsonIgnoreProperties("routesS")
+	@JsonIgnoreProperties("routes")
 	@JoinColumn(name = "disciplineid")
 	private Discipline discipline;
 	

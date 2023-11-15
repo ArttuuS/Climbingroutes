@@ -11,7 +11,6 @@ public interface DisciplineRepository extends CrudRepository<Discipline, Long> {
 
 	List<Discipline> findByName(@Param("name")String name);
 	
-	 Long countByDisciplineid(Discipline discipline);
-	 
-	 //List<Discipline> findByDisciplineId(@Param("disciplineid")Long disciplineid);
+	Long countByDisciplineid(Discipline discipline);
+
 }

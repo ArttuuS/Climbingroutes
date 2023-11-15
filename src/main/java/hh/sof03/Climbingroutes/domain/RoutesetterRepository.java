@@ -11,10 +11,10 @@ public interface RoutesetterRepository extends CrudRepository<Routesetter, Long>
 
     List<Routesetter> findByName(@Param("name") String name);
 
-    // Add this method to count routes by routesetter
+    // Method to count routes by routesetter
     Long countByRoutesetterid(Long routesetterid);
 
-    // Update this method to use the correct property name for the routesetter
+    // Method to find routesetter by id
     List<Route> findByRoutesetterid(Routesetter routesetter);
 
 }
