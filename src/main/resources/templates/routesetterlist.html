@@ -9,10 +9,15 @@
 
 <body>
 	<h1>Routesetters</h1>
-	<div class="col-md-4" style="padding:20px 0">
+	<div sec:authorize="isAuthenticated()" class="col-md-4" style="padding:20px 0">
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
 		</form>
+	</div>
+	<div sec:authorize="isAnonymous()">
+		<div class="col-md-4" style="padding:20px 0">
+			<a th:href="@{/login}" class="btn btn-sm btn-danger">Login</a>
+		</div>
 	</div>
 	<table class="table table-striped">
 		<tr>

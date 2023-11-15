@@ -17,7 +17,14 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
     // New method to find routes by routesetter
     List<Route> findByRoutesetter(Routesetter routesetter);
     
+    // New method to find routes by grade
+    List<Route> findByGrade(@Param("grade")String grade);
+    
     Long countByDiscipline(Discipline discipline);
     
     List<Route> findByDiscipline(Discipline discipline);
+    
+   
+    
+    
 }

@@ -2,34 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Discipline List</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+	<title>Discipline List</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
 
 <body>
-    <h1>Disciplines</h1>
-    	<div class="col-md-4" style="padding:20px 0">
+	<h1>Disciplines</h1>
+	<div sec:authorize="isAuthenticated()" class="col-md-4" style="padding:20px 0">
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger" />
 		</form>
 	</div>
-    <table class="table table-striped">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Routes set</th>
-            
-        </tr>
-        <tr th:each="discipline : ${disciplines}">
-            <td th:text="${discipline.disciplineid}"></td>
-            <td th:text="${discipline.name}"></td>
-            <td th:text="${discipline.disciplineCount}"></td>
-            
-        </tr>
-    </table>
-    <a th:href="@{/adddiscipline}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Discipline</a>
-    <a th:href="@{/climbingroutes}" class="btn btn-success">Back</a>
+	</div>
+	<div sec:authorize="isAnonymous()">
+		<div class="col-md-4" style="padding:20px 0">
+			<a th:href="@{/login}" class="btn btn-sm btn-danger">Login</a>
+		</div>
+	</div>
+	<table class="table table-striped">
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Routes set</th>
+
+		</tr>
+		<tr th:each="discipline : ${disciplines}">
+			<td th:text="${discipline.disciplineid}"></td>
+			<td th:text="${discipline.name}"></td>
+			<td th:text="${discipline.disciplineCount}"></td>
+
+		</tr>
+	</table>
+	<a th:href="@{/adddiscipline}" class="btn btn-success" sec:authorize="hasAuthority('ADMIN')">Add Discipline</a>
+	<a th:href="@{/climbingroutes}" class="btn btn-success">Back</a>
 </body>
 
 </html>
